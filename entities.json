@@ -1,0 +1,21 @@
+{"entities": [
+        {"flavour": [
+                {"value": ["mozzarella"],
+                "synonymous": ["cheese", "mozza", "mozarela"]
+                },
+                {"value": ["vegetarian"],
+                "synonymous": ["legumes", "veggie", "vegie", "vegy"]
+                }
+            ]
+        },
+        {"drink": [
+                {"value": ["orange"],
+                "synonymous": ["orange-juice", "fruit juice"]
+                },
+                {"value": ["coke"],
+                "synonymous": ["coca", "pepsi", "cola", "cocacola"]
+                }
+            ]
+        }
+    ]
+}
