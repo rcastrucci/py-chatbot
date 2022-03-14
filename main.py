@@ -37,6 +37,22 @@ def loadIntents(INTENTS):
     return listOfIntents
 
 
+def loadIntentsPatterns(INTENTS):
+    listOfIntentsPatterns = []
+    for intents in INTENTS:
+        for patterns in intents['patterns']:
+            listOfIntentsPatterns.append((intents['tag'], patterns))
+    return listOfIntentsPatterns
+
+
+def loadIntentsResponses(INTENTS):
+    listOfIntentsResponses = []
+    for intents in INTENTS:
+        for responses in intents['responses']:
+            listOfIntentsResponses.append((intents['tag'], responses))
+    return listOfIntentsResponses
+
+
 def loadEntities(ENTITIES):
     listOfEntities = []
     for entities in ENTITIES:
@@ -75,31 +91,50 @@ intentsFile = "intents.json"
 entitiesFile = "entities.json"
 
 if checkFiles([intentsFile, entitiesFile]):
+    ''' INTENTS '''
     INTENTS = openJson(intentsFile)['intents']
-    ENTITIES = openJson(entitiesFile)['entities']
     intentsList = loadIntents(INTENTS)
+    intentsPatterns = loadIntentsPatterns(INTENTS)
+    intentsResponses = loadIntentsResponses(INTENTS)
+    ''' ENTITIES '''
+    ENTITIES = openJson(entitiesFile)['entities']
     entitiesList = loadEntities(ENTITIES)
     entitiesValues = loadEntitiesValues(ENTITIES)
     entitiesSynonymous = loadEntitiesSynonymous(ENTITIES)
+    
 
-    def predict(word):
-        hardValue = search(word, entitiesValues)
-        synonymousValue = search(word, entitiesSynonymous)
-        if hardValue:
-            return hardValue
-        else:
-            if synonymousValue:
-                return search(synonymousValue[0], entitiesValues)
+    class predict:
+        def intent(word):
+            hardValue = search(word, intentsPatterns)
+            if hardValue:
+                return hardValue
             else:
                 return False
 
-    while True:
-        inp = input("You: ")
-        if inp == "quit":
-            break
-        else:                
-            answer = predict(inp)
-            if answer:
-                print(answer)
+        def entity(word):
+            hardValue = search(word, entitiesValues)
+            synonymousValue = search(word, entitiesSynonymous)
+            if hardValue:
+                return hardValue
+            else:
+                if synonymousValue:
+                    return search(synonymousValue[0], entitiesValues)
+                else:
+                    return False
+
+    class chat:
+        def read(query):
+            queryEntity = predict.entity(query)
+            queryIntent = predict.intent(query)
+            if queryEntity or queryIntent:
+                print(queryIntent, queryEntity)
             else:
                 print("Not found")
+
+    print("Welcome to our chatbot! Type 'quit' to leave the chat")
+    while True:
+        query = input("You: ")
+        if query == "quit":
+            break
+        else:
+            chat.read(query)
