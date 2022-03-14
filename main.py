@@ -1,5 +1,6 @@
 import json
 import os.path
+import random
 
 
 def isJsonFile(filename):
@@ -87,6 +88,18 @@ def search(arg, tuplesList):
     return False
 
 
+def pickAnswer(tag, answers, randomic=True):
+    listOfAnswers = []
+    for ans in answers:
+        if ans[0] == tag:
+            listOfAnswers.append(ans[1])
+    if randomic:
+        return random.choice(listOfAnswers)
+    else:
+        sequence = "\n".join(listOfAnswers)
+        return sequence
+
+
 intentsFile = "intents.json"
 entitiesFile = "entities.json"
 
@@ -123,18 +136,28 @@ if checkFiles([intentsFile, entitiesFile]):
                     return False
 
     class chat:
-        def read(query):
-            queryEntity = predict.entity(query)
-            queryIntent = predict.intent(query)
-            if queryEntity or queryIntent:
-                print(queryIntent, queryEntity)
-            else:
-                print("Not found")
+        def answer(tag):
+            print(pickAnswer(tag, intentsResponses, randomic=False))
 
-    print("Welcome to our chatbot! Type 'quit' to leave the chat")
-    while True:
-        query = input("You: ")
-        if query == "quit":
-            break
-        else:
-            chat.read(query)
+        def read(query):
+            brokenQuery = query.split()
+            for word in brokenQuery:
+                queryIntent = predict.intent(word)
+                if queryIntent:
+                    print(queryIntent)
+                    chat.answer(queryIntent[0])
+            for word in brokenQuery:
+                queryEntity = predict.entity(word)
+                if queryEntity:
+                    print(queryEntity)
+
+        def start():
+            print("Welcome to our chatbot! Type 'quit' to leave the chat")
+            while True:
+                query = input("You: ")
+                if query == "quit":
+                    break
+                else:
+                    chat.read(query)
+    
+    chat.start()
