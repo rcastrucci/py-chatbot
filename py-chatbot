@@ -151,11 +151,13 @@ if checkFiles([intentsFile, entitiesFile]):
 
         def read(query):
             brokenQuery = query.split()
+            
             for word in brokenQuery:
                 queryIntent = predict.intent(word)
                 if queryIntent:
                     print(queryIntent)
                     chat.answer(queryIntent[0])
+
             for word in brokenQuery:
                 queryEntity = predict.entity(word)
                 if queryEntity:
