@@ -115,12 +115,20 @@ def search(sentence, tuplesList):
         sentenceBroken = sentence.lower().split()
         amountFound = 0
         for x in range(len(sentenceBroken)):
-            if sentenceBroken[x] in tuplesList[i][1].lower():
-                amountFound += (len(sentenceBroken[x]*100)/len(tuplesList[i][1]))
+            userWord = sentenceBroken[x]
+            botSentence = tuplesList[i][1].lower()
+
+            if len(userWord) > 1:
+                if userWord in botSentence:
+                    amountFound += (len(userWord*100)/len(botSentence))
         if amountFound == 0:
             for y in range(len(tupleBroken)):
-                if tupleBroken[y] in sentence.lower():
-                    amountFound += (len(tuplesList[i][1])*100)/len(sentenceBroken[x])
+                botWord = tupleBroken[y]
+                userSentence = sentence.lower()
+                
+                if len(botWord) > 1:
+                    if botWord in userSentence:
+                        amountFound += (len(botWord)*100)/len(userSentence)
         if amountFound > 0:
             tupleWords = len(tupleBroken)
             sentenceWords = len(sentenceBroken)
@@ -210,15 +218,16 @@ if checkFiles([intentsFile, entitiesFile]):
 
     class chat:
         def answer(tag):
-            print("Py-chatbot: {}\n".format(pickAnswer(tag, intentsResponses)))
+            print("\nPy-chatbot: {}\n".format(pickAnswer(tag, intentsResponses)))
 
         def read(query):
             queryIntent = predict.sentence(query)
             if queryIntent:
-                print("\nSearch results:\n{}\n".format(queryIntent))
+                queryIntent = sorted(queryIntent, key=lambda x: x[1], reverse=True)
+                ''' print(queryIntent) '''
                 chat.answer(queryIntent[0][0])
             else:
-                print("I didn't understand, please can you try again?")
+                print("\nI didn't understand, please can you try again?\n")
 
         def getName():
             while True:
@@ -234,7 +243,7 @@ if checkFiles([intentsFile, entitiesFile]):
             print("Welcome to Py-Chatbot {}! To close this chat type 'quit'\n\n".format(userName))
             while True:
                 query = input("{}: ".format(userName))
-                if query == "quit":
+                if (query == "quit" or query == "exit"):
                     break
                 else:
                     chat.read(query)

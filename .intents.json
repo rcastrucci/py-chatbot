@@ -1,7 +1,7 @@
 {"intents": [
         {"tag": "greeting",
-        "patterns": ["Hi", "How are you", "Is anyone there?", "Hello", "Good day", "Whats up"],
-        "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help?"],
+        "patterns": ["Hi", "How are you", "Is anyone there", "Hello", "Good day", "Whats up", "What up!"],
+        "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help"],
         "description": ""
         },
         {"tag": "goodbye",
@@ -10,17 +10,17 @@
         "context_set": ""
         },
         {"tag": "age",
-        "patterns": ["How old are you", "How old", "What is your age?", "age?", "How old is bot"],
+        "patterns": ["How old are you", "How old", "What is your age", "age", "How old is bot"],
         "responses": ["I am 39 years old", "I am 39"],
         "context_set": ""
         },
         {"tag": "name",
-        "patterns": ["Whats your name", "What should I call you?", "What is your name?"],
+        "patterns": ["Whats your name", "What should I call you", "What is your name"],
         "responses": ["You can call me bot", "I am bot", "I'm bot"],
         "context_set": ""
         },
         {"tag": "shop",
-        "patterns": ["Id like to buy something", "Whats on the menu", "What do you reccommend?"],
+        "patterns": ["Id like to buy something", "Whats on the menu", "What do you reccommend"],
         "responses": ["We sell chocolate chip cookies for $2", "Cookies are on the menu!"],
         "context_set": ""
         },
@@ -30,8 +30,8 @@
         "context_set": ""
         },
         {"tag": "order",
-        "patterns": ["I would like to order?", "Can I order now?", "I am hungry!", "I want to ask a pizza"],
-        "responses": ["Which flavour of pizza would you like?"],
+        "patterns": ["I would like to order", "Can I order now", "I am hungry!", "I want to ask a pizza"],
+        "responses": ["Which flavour of pizza would you like"],
         "description": "User intents to place an order"
         }
     ]
