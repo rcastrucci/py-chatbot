@@ -2,6 +2,7 @@
 ###### Still in development
 
 #### Working on a NLP chatbot not using any libraries
+![Py-ChatBot](https://rcastrucci.com/dev/projects/py-chatbot/pychatbot.gif)
 
 ## TO RUN
 Copy commands bellow, paste into your terminal and press enter
