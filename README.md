@@ -1,7 +1,12 @@
 # PY-CHATBOT
-**Still in development**
+###### Still in development
 
-#### Working on a NLP chatbot and trying to not use any NLP libraries
+#### Working on a NLP chatbot not using any libraries
 
 ## TO RUN
-clone this repository and type ./py-chatbot
+
+**MacOS**
+clone this repository and type "./py-chatbot"
+
+**Windows or Linux**
+clone this repository and type "python3 py-chatbot"
