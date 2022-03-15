@@ -91,11 +91,58 @@ def loadEntitiesSynonymous(ENTITIES):
     return listOfEntitiesSynonymous
 
 
-def search(arg, tuplesList):
+def search(sentence, tuplesList):
+    percentagePredicted = []
     for i in range(len(tuplesList)):
-        if arg.lower() in tuplesList[i][1].lower():
-            return tuplesList[i]
-    return False
+        sentencePercentagePredicted = 0
+        wordPercentagePredicted = 0
+
+        ''' SEARCH INITIALY ON ENTIRE SENTENCE '''
+        if (sentence.lower() in tuplesList[i][1].lower() or tuplesList[i][1].lower() in sentence.lower()):
+            tupleSize = len(tuplesList[i][1])
+            sentenceSize = len(sentence)
+
+            if tupleSize > sentenceSize:
+                sentencePercentagePredicted = (sentenceSize * 100)/tupleSize
+            else:
+                sentencePercentagePredicted = (tupleSize * 100)/sentenceSize
+
+            ''' print("Found Sentence -> {} in tuple -> {} with percentage -> {}".format(sentence.lower(), tuplesList[i][1].lower(), sentencePercentagePredicted)) '''
+
+
+        ''' BREAK SENTENCE INTO WORDS AND SEARCH WORD BY WORD IN A TUPLE '''
+        tupleBroken = tuplesList[i][1].lower().split()
+        sentenceBroken = sentence.lower().split()
+        amountFound = 0
+        for x in range(len(sentenceBroken)):
+            if sentenceBroken[x] in tuplesList[i][1].lower():
+                amountFound += (len(sentenceBroken[x]*100)/len(tuplesList[i][1]))
+        if amountFound == 0:
+            for y in range(len(tupleBroken)):
+                if tupleBroken[y] in sentence.lower():
+                    amountFound += (len(tuplesList[i][1])*100)/len(sentenceBroken[x])
+        if amountFound > 0:
+            tupleWords = len(tupleBroken)
+            sentenceWords = len(sentenceBroken)
+
+            if tupleWords > sentenceWords:
+                wordPercentagePredicted = amountFound/tupleWords
+            else:
+                wordPercentagePredicted = amountFound/sentenceWords
+            
+            ''' print("Found Word -> {} in tuple -> {} with percentage -> {}".format(sentenceBroken[x], tuplesList[i][1].lower(), wordPercentagePredicted)) '''
+
+        ''' THE HIGHEST SCORE OF PREDICTION RETURN PERCENTAGE IN A TUPLE WITH ITS CORRESPONDENT INTENT '''
+        if sentencePercentagePredicted > wordPercentagePredicted:
+            percentagePredicted.append((tuplesList[i][0], sentencePercentagePredicted))
+        else:
+            if wordPercentagePredicted > 0:
+                percentagePredicted.append((tuplesList[i][0], wordPercentagePredicted))
+
+    if len(percentagePredicted) > 0:
+        return sorted(percentagePredicted)
+    else:    
+        return False
 
 
 def pickAnswer(tag, answers, randomic=True):
@@ -127,41 +174,51 @@ if checkFiles([intentsFile, entitiesFile]):
     
 
     class predict:
+        def sentence(entireSentence):
+            if len(entireSentence) > 1:
+                searchIntents = search(entireSentence, intentsPatterns)
+                if searchIntents:
+                    return searchIntents
+                else:
+                    return False
+            else:
+                return False
+
         def intent(word):
-            hardValue = search(word, intentsPatterns)
-            if hardValue:
-                return hardValue
+            if len(word) > 1:
+                hardValue = search(word, intentsPatterns)
+                if hardValue:
+                    return hardValue
+                else:
+                    return False
             else:
                 return False
 
         def entity(word):
-            hardValue = search(word, entitiesValues)
-            synonymousValue = search(word, entitiesSynonymous)
-            if hardValue:
-                return hardValue
-            else:
-                if synonymousValue:
-                    return search(synonymousValue[0], entitiesValues)
+            if len(word) > 1:
+                hardValue = search(word, entitiesValues)
+                synonymousValue = search(word, entitiesSynonymous)
+                if hardValue:
+                    return hardValue
                 else:
-                    return False
+                    if synonymousValue:
+                        return search(synonymousValue[0], entitiesValues)
+                    else:
+                        return False
+            else:
+                return False
 
     class chat:
         def answer(tag):
             print("Py-chatbot: {}\n".format(pickAnswer(tag, intentsResponses)))
 
         def read(query):
-            brokenQuery = query.split()
-            
-            for word in brokenQuery:
-                queryIntent = predict.intent(word)
-                if queryIntent:
-                    print(queryIntent)
-                    chat.answer(queryIntent[0])
-
-            for word in brokenQuery:
-                queryEntity = predict.entity(word)
-                if queryEntity:
-                    print(queryEntity)
+            queryIntent = predict.sentence(query)
+            if queryIntent:
+                print("\nSearch results:\n{}\n".format(queryIntent))
+                chat.answer(queryIntent[0][0])
+            else:
+                print("I didn't understand, please can you try again?")
 
         def getName():
             while True:
@@ -171,7 +228,8 @@ if checkFiles([intentsFile, entitiesFile]):
                     return " ".join(name).capitalize()
 
         def start():
-            userName = chat.getName()
+            ''' userName = chat.getName() '''
+            userName = 'You'
             clearScreen()
             print("Welcome to Py-Chatbot {}! To close this chat type 'quit'\n\n".format(userName))
             while True:
