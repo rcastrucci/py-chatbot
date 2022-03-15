@@ -1,6 +1,6 @@
 {"intents": [
         {"tag": "greeting",
-        "patterns": ["Hi", "How are you", "Is anyone there", "Hello", "Good day", "Whats up", "What up!"],
+        "patterns": ["Hi", "hey", "How are you", "Is anyone there", "Hello", "Good day", "Whats up", "What up!"],
         "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help", "Hey, Whats up!", "Hey! Would you like to ask me something?"],
         "description": ""
         },
@@ -31,7 +31,7 @@
         },
         {"tag": "hours",
         "patterns": ["What time is it", "whats the time", "do you know the time"],
-        "responses": ["If you want I can look on the watch for you", "Hum is time to make me a question", "I still working on this to answer you better"],
+        "responses": ["If you want I can look for you", "Hum is time to make me a question", "I still working on this to answer you better"],
         "context_set": ""
         },
         {"tag": "order",
