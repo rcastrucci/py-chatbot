@@ -1,32 +1,37 @@
 {"intents": [
         {"tag": "greeting",
         "patterns": ["Hi", "How are you", "Is anyone there", "Hello", "Good day", "Whats up", "What up!"],
-        "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help"],
+        "responses": ["Hello!", "Good to see you again!", "Hi there, how can I help", "Hey, Whats up!", "Hey! Would you like to ask me something?"],
         "description": ""
         },
         {"tag": "goodbye",
-        "patterns": ["Cya", "See you later", "Goodbye", "I am leaving", "Have a good day"],
-        "responses": ["Sad to see you go", "Talk to you later", "Goodbye"],
+        "patterns": ["Cya", "See you later", "Goodbye", "I am leaving", "Have a good day", "I need to go", "I have to go"],
+        "responses": ["Sad to see you going", "Ok! I talk to you later", "Goodbye!", "I see you later"],
         "context_set": ""
         },
         {"tag": "age",
-        "patterns": ["How old are you", "How old", "What is your age", "age", "How old is bot"],
-        "responses": ["I am 39 years old", "I am 39"],
+        "patterns": ["How old are you", "How old", "What is your age", "age", "How old is bot", "how many year do you have"],
+        "responses": ["I am 39 years old", "I am 39, what about you?", "I am little bit old", "This is not such a good question to ask me, but I am 39"],
+        "context_set": ""
+        },
+        {"tag": "users_info",
+        "patterns": ["I am", "I have this", "I did such a thing"],
+        "responses": ["Ahn good to know", "Interesting", "Tell me more"],
         "context_set": ""
         },
         {"tag": "name",
-        "patterns": ["Whats your name", "What should I call you", "What is your name"],
-        "responses": ["You can call me bot", "I am bot", "I'm bot"],
+        "patterns": ["Whats your name", "How should I call you", "What is your name"],
+        "responses": ["You can call me bot", "I am bot", "I'm bot, did you like my name?"],
         "context_set": ""
         },
         {"tag": "shop",
         "patterns": ["Id like to buy something", "Whats on the menu", "What do you reccommend"],
-        "responses": ["We sell chocolate chip cookies for $2", "Cookies are on the menu!"],
+        "responses": ["Are you hungry or thirsty?", "I am not sure if I can help you"],
         "context_set": ""
         },
         {"tag": "hours",
-        "patterns": ["When are you guys open", "What are the openning hours", "hours of operation"],
-        "responses": ["We are open 7am-4pm everyday"],
+        "patterns": ["What time is it", "whats the time", "do you know the time"],
+        "responses": ["If you want I can look on the watch for you", "Hum is time to make me a question", "I still working on this to answer you better"],
         "context_set": ""
         },
         {"tag": "order",
